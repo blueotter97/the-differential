@@ -420,21 +420,6 @@
 <script>
 var log=[];var currentStep=0;var refOpen=false;
 
-);
-  var used = {};
-  sorted.forEach(function(term) {
-    if(used[term]) return;
-    var pattern = new RegExp('(?<![\w-])(' + term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')(?![\w-])', 'i');
-    if(pattern.test(text)) {
-      var g = glossary[term];
-      text = text.replace(pattern, '<span class="tip">$1<span class="tip-box"><strong>'+g.term+'</strong>'+g.def+'<span class="tip-arrow"></span></span></span>');
-      used[term] = true;
-    }
-  });
-  return text;
-}
-
-
 var steps=[
   {label:"Decision 1 of 10 — first response",scene:"It's 2:47 a.m. A nurse grabs you outside Room 6. \"Mr. Okafor — 58, two days post-CABG. He was completely stable an hour ago. Now he's unresponsive and the monitor is screaming.\" You walk in. He's gray. Agonal breathing. A nurse is already starting chest compressions. Another has the defibrillator out and charged. The monitor shows an erratic, chaotic waveform — no discernible QRS complexes.",
   vitals:[{v:"---",l:"BP",f:"undetectable",c:"c-red"},{v:"0",l:"SpO2",f:"no signal",c:"c-red"},{v:"V-fib",l:"Rhythm",f:"confirmed",c:"c-red"},{v:"37.1°",l:"Temp",f:"",c:"c-ok"},{v:"0",l:"GCS",f:"unresponsive",c:"c-red"}],
