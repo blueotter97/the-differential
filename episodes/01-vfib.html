@@ -524,7 +524,6 @@ function toggleChat() {
   }
 }
 
-var OPENROUTER_KEY = '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';
 var chatHistory = [];
 
 async function sendChat() {
@@ -553,14 +552,9 @@ async function sendChat() {
   var systemPrompt = "You are a medical vocabulary assistant inside The Differential — a medical fiction game. Episode 01 is about ventricular fibrillation and cardiac arrest. The player is learning medicine and may ask about terms, drugs, or procedures. Answer in 2–4 sentences, plain English, warm and encouraging. Never reveal which choice is correct or give strategic hints. Explain what things ARE, not what the player should do.";
   chatHistory.push({ role: 'user', content: msg });
   try {
-    var response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    var response = await fetch('https://the-differential-proxy.thaanvikumar.workers.dev', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + OPENROUTER_KEY,
-        'HTTP-Referer': 'https://blueotter97.github.io/the-differential',
-        'X-Title': 'The Differential'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'meta-llama/llama-3.2-3b-instruct:free',
         messages: [{ role: 'system', content: systemPrompt }, ...chatHistory],
