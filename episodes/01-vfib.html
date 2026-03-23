@@ -6,10 +6,10 @@
   <title>Episode 01 — Flatline at 2:47 a.m. | The Differential</title>
   <style>
     @media (prefers-color-scheme: dark) {
-      :root { --bg:#0f0d0b;--bg2:#1d1810;--bg3:#2a2018;--border:rgba(255,200,120,0.13);--text:#f0e8d8;--muted:#a89880;--hint:#6a5a48;--red:#e04030;--redbg:rgba(220,60,40,0.15);--greenbg:rgba(60,180,90,0.13);--green:#4cca70;--amberbg:rgba(240,180,0,0.13);--amber:#e8b020;--accent:#3aacb4;--accentbg:rgba(58,172,180,0.13); }
+      :root { --bg:#0f0d0b;--bg2:#1d1810;--bg3:#2a2018;--border:rgba(255,200,120,0.13);--text:#f0e8d8;--muted:#a89880;--hint:#6a5a48;--red:#e04030;--redbg:rgba(220,60,40,0.15);--greenbg:rgba(60,180,90,0.13);--green:#4cca70;--amberbg:rgba(240,180,0,0.13);--amber:#e8b020;--accent:#c8763a;--accentbg:rgba(200,118,58,0.13); }
     }
     @media (prefers-color-scheme: light) {
-      :root { --bg:#fdf6ec;--bg2:#f7ead6;--bg3:#edd8b8;--border:rgba(160,100,30,0.15);--text:#1a1008;--muted:#5a4830;--hint:#9a8060;--red:#c82820;--redbg:rgba(200,40,32,0.08);--greenbg:rgba(30,140,60,0.09);--green:#1e7a3a;--amberbg:rgba(180,120,0,0.09);--amber:#8a6000;--accent:#2a7a80;--accentbg:rgba(42,122,128,0.09); }
+      :root { --bg:#fdf6ec;--bg2:#f7ead6;--bg3:#edd8b8;--border:rgba(160,100,30,0.15);--text:#1a1008;--muted:#5a4830;--hint:#9a8060;--red:#c82820;--redbg:rgba(200,40,32,0.08);--greenbg:rgba(30,140,60,0.09);--green:#1e7a3a;--amberbg:rgba(180,120,0,0.09);--amber:#8a6000;--accent:#b85e20;--accentbg:rgba(184,94,32,0.09); }
     }
     *{box-sizing:border-box;margin:0;padding:0;}
     html,body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;min-height:100vh;}
@@ -127,6 +127,31 @@
     .restart-btn{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-family:-apple-system,sans-serif;color:var(--muted);border:0.5px solid var(--border);border-radius:6px;padding:8px 16px;background:transparent;cursor:pointer;margin-top:1rem;}
     .restart-btn:hover{color:var(--text);background:var(--bg2);}
     .hidden{display:none;}
+
+    /* ── AI Chat ── */
+    .chat-fab{position:fixed;bottom:1.5rem;right:1.5rem;width:48px;height:48px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;}
+    .chat-fab svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .chat-fab .close-icon{display:none;}
+    .chat-fab.open .chat-icon{display:none;}
+    .chat-fab.open .close-icon{display:block;}
+    .chat-panel{position:fixed;bottom:5rem;right:1.5rem;width:320px;max-height:460px;background:var(--bg);border:0.5px solid var(--border);border-radius:14px;display:flex;flex-direction:column;z-index:199;overflow:hidden;display:none;}
+    .chat-panel.open{display:flex;}
+    .chat-head{padding:0.85rem 1rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px;}
+    .chat-head-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+    .chat-head-title{font-size:13px;font-weight:700;font-family:-apple-system,sans-serif;color:var(--text);}
+    .chat-head-sub{font-size:11px;font-family:-apple-system,sans-serif;color:var(--muted);margin-left:auto;}
+    .chat-messages{flex:1;overflow-y:auto;padding:0.75rem 1rem;display:flex;flex-direction:column;gap:0.6rem;}
+    .chat-msg{font-size:13px;font-family:-apple-system,sans-serif;line-height:1.6;max-width:85%;padding:0.5rem 0.75rem;border-radius:10px;}
+    .chat-msg.bot{background:var(--bg2);color:var(--text);align-self:flex-start;border-bottom-left-radius:3px;}
+    .chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:3px;}
+    .chat-msg.typing{color:var(--muted);font-style:italic;}
+    .chat-input-row{padding:0.6rem 0.75rem;border-top:0.5px solid var(--border);display:flex;gap:6px;align-items:center;}
+    .chat-input{flex:1;font-size:13px;font-family:-apple-system,sans-serif;background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:6px 10px;color:var(--text);outline:none;}
+    .chat-input::placeholder{color:var(--hint);}
+    .chat-send{width:30px;height:30px;border-radius:8px;background:var(--accent);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .chat-send svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+    .chat-send:disabled{opacity:0.4;cursor:default;}
+    @media(max-width:520px){.chat-panel{width:calc(100vw - 2rem);right:1rem;}}
     @media(max-width:520px){.concept-grid,.bundle-grid,.ht-grid,.vitals-ref{grid-template-columns:1fr;}.concept-card.full{grid-column:1;}.drug-row{grid-template-columns:1fr;}.drug-name{border-right:none;border-bottom:0.5px solid var(--border);}.vitals{grid-template-columns:repeat(3,minmax(0,1fr));}}
   </style>
 </head>
@@ -368,10 +393,48 @@
     <div id="evidence-area"></div>
     <button class="restart-btn" onclick="restart()">&#8592; Start over</button>
   </div>
+  <!-- ── AI Chat ── -->
+  <button class="chat-fab" id="chat-fab" onclick="toggleChat()">
+    <svg class="chat-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="close-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="chat-panel" id="chat-panel">
+    <div class="chat-head">
+      <div class="chat-head-dot"></div>
+      <span class="chat-head-title">Ask anything</span>
+      <span class="chat-head-sub">Medical vocab · Episode 01</span>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg bot">Hey! Ask me anything you don't understand — a drug, a procedure, a term. I won't spoil the case though.</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" type="text" placeholder="e.g. what is amiodarone?" onkeydown="if(event.key==='Enter')sendChat()"/>
+      <button class="chat-send" id="chat-send" onclick="sendChat()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <script>
 var log=[];var currentStep=0;var refOpen=false;
+
+);
+  var used = {};
+  sorted.forEach(function(term) {
+    if(used[term]) return;
+    var pattern = new RegExp('(?<![\w-])(' + term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')(?![\w-])', 'i');
+    if(pattern.test(text)) {
+      var g = glossary[term];
+      text = text.replace(pattern, '<span class="tip">$1<span class="tip-box"><strong>'+g.term+'</strong>'+g.def+'<span class="tip-arrow"></span></span></span>');
+      used[term] = true;
+    }
+  });
+  return text;
+}
+
+
 var steps=[
   {label:"Decision 1 of 10 — first response",scene:"It's 2:47 a.m. A nurse grabs you outside Room 6. \"Mr. Okafor — 58, two days post-CABG. He was completely stable an hour ago. Now he's unresponsive and the monitor is screaming.\" You walk in. He's gray. Agonal breathing. A nurse is already starting chest compressions. Another has the defibrillator out and charged. The monitor shows an erratic, chaotic waveform — no discernible QRS complexes.",
   vitals:[{v:"---",l:"BP",f:"undetectable",c:"c-red"},{v:"0",l:"SpO2",f:"no signal",c:"c-red"},{v:"V-fib",l:"Rhythm",f:"confirmed",c:"c-red"},{v:"37.1°",l:"Temp",f:"",c:"c-ok"},{v:"0",l:"GCS",f:"unresponsive",c:"c-red"}],
@@ -449,6 +512,78 @@ function showDebrief(){document.getElementById('s-case').classList.add('hidden')
 document.getElementById('outcome-banner').innerHTML='<div class="outcome-banner '+bc+'"><p class="ob-title">'+title+'</p><p class="ob-body">'+body+'</p></div>';
 var lh='';log.forEach(function(l){lh+='<div class="log-entry"><p class="log-step">'+l.label+'</p><p class="log-choice">You chose: '+l.choice+'</p><p class="log-result">'+l.consequence+'</p></div>';});document.getElementById('log-area').innerHTML=lh;
 document.getElementById('evidence-area').innerHTML='<div class="evidence-block"><p class="ev-title">Decision 1 — immediate defibrillation</p><p class="ev-body">ACLS is unambiguous: defibrillate as soon as the device is available. Epinephrine, pulse checks, and rhythm confirmation should never delay the first shock. Every minute of V-fib without defibrillation reduces survival by ~10%. The shock is the only intervention that terminates V-fib.</p></div><div class="evidence-block"><p class="ev-title">Decision 2 — post-shock CPR and epinephrine timing</p><p class="ev-body">After any shock, CPR resumes immediately for 2 full minutes. Epinephrine 1mg IV is given as soon as IV access is established, repeated every 3–5 minutes. Pausing CPR to check the monitor collapses coronary perfusion pressure — it takes ~60 seconds to rebuild after compressions stop.</p></div><div class="evidence-block"><p class="ev-title">Decision 3 — second shock and antiarrhythmics</p><p class="ev-body">The second shock follows the same 200J dose — escalating energy has not shown benefit in biphasic defibrillation for V-fib. Amiodarone 300mg IV is recommended after the 2nd or 3rd failed shock, given during a CPR cycle, not instead of a shock.</p></div><div class="evidence-block"><p class="ev-title">Decision 4 — reversible causes in a post-surgical patient</p><p class="ev-body">Post-CABG patients have elevated risk for cardiac tamponade. Hyperkalemia from myocardial ischemia is a plausible cause of refractory V-fib — empirical calcium gluconate is reasonable. Blind bicarbonate without known pH can worsen outcomes. Addressing causes must not interrupt CPR.</p></div><div class="evidence-block"><p class="ev-title">Decision 5 — PEA management</p><p class="ev-body">PEA is a non-shockable rhythm. Defibrillating PEA is incorrect. Atropine was removed from ACLS in 2010 — no benefit in cardiac arrest. The correct approach: uninterrupted CPR, epinephrine every 3–5 minutes, aggressive identification and treatment of the reversible cause.</p></div><div class="evidence-block"><p class="ev-title">Decision 6 — airway first after ROSC</p><p class="ev-body">With GCS 3 and SpO2 82%, the airway is the immediate priority. A patient cannot protect their airway at GCS 3 — vomiting and aspiration are imminent. SpO2 of 82% represents dangerous hypoxemia in a post-arrest brain. Intubation always precedes blood pressure management, ECG acquisition, and TTM initiation.</p></div><div class="evidence-block"><p class="ev-title">Decision 7 — vasopressor choice post-ROSC</p><p class="ev-body">Norepinephrine is the preferred vasopressor post-cardiac arrest — stronger evidence than dopamine. Target MAP ≥65 mmHg. Post-arrest hypotension is primarily vasodilatory and related to myocardial dysfunction — vasopressors are more effective than fluids alone. Epinephrine boluses cause dangerous hemodynamic swings and increase arrhythmia risk.</p></div><div class="evidence-block"><p class="ev-title">Decision 8 — STEMI after cardiac arrest</p><p class="ev-body">ST-elevation post-arrest mandates emergent coronary angiography regardless of neurological status — a Class I indication. Thrombolytics are contraindicated when a cath lab is available. Waiting for neurological stability allows ongoing myocardial death from the occluded artery. PCI and TTM can and should run simultaneously.</p></div><div class="evidence-block"><p class="ev-title">Decision 9 — targeted temperature management</p><p class="ev-body">Current guidelines support TTM at 33–36°C for 24 hours in comatose post-arrest survivors. TTM-2 (2021) showed no difference between 33°C and 37.5°C (with strict fever prevention), but allowing fever (&gt;37.5°C) independently worsens neurological outcomes. Both 33°C and 36°C are acceptable — fever is not.</p></div><div class="evidence-block"><p class="ev-title">Decision 10 — glycemic control and prognostication timing</p><p class="ev-body">Target glucose 140–180 mg/dL post-arrest — the NICE-SUGAR trial showed tight control (80–110) increases ICU mortality. Neurological prognostication should not occur before 72 hours post-arrest and not before rewarming — TTM alters the neurological exam. Premature prognostication leads to inappropriate withdrawal of care in patients who would have survived.</p></div>';}
+
+
+function toggleChat() {
+  var fab = document.getElementById('chat-fab');
+  var panel = document.getElementById('chat-panel');
+  fab.classList.toggle('open');
+  panel.classList.toggle('open');
+  if(panel.classList.contains('open')) {
+    document.getElementById('chat-input').focus();
+  }
+}
+
+var OPENROUTER_KEY = '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';
+var chatHistory = [];
+
+async function sendChat() {
+  var input = document.getElementById('chat-input');
+  var msg = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+
+  var messages = document.getElementById('chat-messages');
+  var send = document.getElementById('chat-send');
+
+  // Add user message
+  var userDiv = document.createElement('div');
+  userDiv.className = 'chat-msg user';
+  userDiv.textContent = msg;
+  messages.appendChild(userDiv);
+
+  // Typing indicator
+  var typingDiv = document.createElement('div');
+  typingDiv.className = 'chat-msg bot typing';
+  typingDiv.textContent = 'thinking...';
+  messages.appendChild(typingDiv);
+  messages.scrollTop = messages.scrollHeight;
+  send.disabled = true;
+
+  var systemPrompt = "You are a medical vocabulary assistant inside The Differential — a medical fiction game. Episode 01 is about ventricular fibrillation and cardiac arrest. The player is learning medicine and may ask about terms, drugs, or procedures. Answer in 2–4 sentences, plain English, warm and encouraging. Never reveal which choice is correct or give strategic hints. Explain what things ARE, not what the player should do.";
+  chatHistory.push({ role: 'user', content: msg });
+  try {
+    var response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + OPENROUTER_KEY,
+        'HTTP-Referer': 'https://blueotter97.github.io/the-differential',
+        'X-Title': 'The Differential'
+      },
+      body: JSON.stringify({
+        model: 'meta-llama/llama-3.2-3b-instruct:free',
+        messages: [{ role: 'system', content: systemPrompt }, ...chatHistory],
+        max_tokens: 200,
+        temperature: 0.7
+      })
+    });
+    var data = await response.json();
+    var reply = (data.choices && data.choices[0] && data.choices[0].message)
+      ? data.choices[0].message.content
+      : (data.error ? 'Error: ' + data.error.message : "Sorry, couldn't get a response. Try again!");
+    typingDiv.className = 'chat-msg bot';
+    typingDiv.textContent = reply;
+    chatHistory.push({ role: 'assistant', content: reply });
+  } catch(e) {
+    typingDiv.className = 'chat-msg bot';
+    typingDiv.textContent = "Couldn't connect — check your internet and try again.";
+    chatHistory.pop();
+  }
+
+  send.disabled = false;
+  messages.scrollTop = messages.scrollHeight;
+}
 
 function restart(){log=[];currentStep=0;document.getElementById('s-debrief').classList.add('hidden');document.getElementById('s-lesson').classList.remove('hidden');}
 </script>
