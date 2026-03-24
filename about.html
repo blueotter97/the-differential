@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | The Differential</title>
+  <style>
+    :root { --bg: #fdf8f3; --bg2: #f5ede2; --bg3: #e8d9c0; --border: rgba(120,80,40,0.1); --text: #1e1610; --muted: #6b5e52; --hint: #a8998a; --red: #b83228; --accent: #2a7a80; --accentbg: rgba(42,122,128,0.09); }
+    html.dark { --bg: #12100e; --bg2: #1e1a16; --bg3: #2a2018; --border: rgba(255,220,180,0.09); --text: #ede8e0; --muted: #8c8478; --hint: #5c5550; --red: #c0392b; --accent: #3aacb4; --accentbg: rgba(58,172,180,0.13); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: var(--bg); color: var(--text); font-family: Georgia, 'Times New Roman', serif; min-height: 100vh; }
+    .site { max-width: 720px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1.75rem 0 1.5rem; border-bottom: 0.5px solid var(--border); margin-bottom: 3rem; }
+    .nav-logo { font-size: 16px; color: var(--muted); font-family: Georgia, serif; text-decoration: none; }
+    .nav-logo:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links { display: flex; gap: 1.75rem; }
+    .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; font-family: -apple-system, sans-serif; }
+    .nav-links a:hover { color: var(--text); }
+    .theme-toggle { background: transparent; border: 0.5px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px; font-family: -apple-system, sans-serif; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+    .theme-toggle:hover { color: var(--text); background: var(--bg2); }
+    .page-eyebrow { font-size: 11px; font-family: -apple-system, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; font-weight: 600; }
+    .page-title { font-size: 36px; font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 3rem; }
+    .divider { border: none; border-top: 0.5px solid var(--border); margin: 2.5rem 0; }
+    .section-label { font-size: 11px; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 1.25rem; padding-bottom: 0.6rem; border-bottom: 1.5px solid var(--accent); font-weight: 700; opacity: 0.85; }
+    .bio-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 3rem; margin-bottom: 2.5rem; align-items: start; }
+    .bio-card { background: var(--bg3); border-radius: 12px; padding: 1.5rem; }
+    .bio-name { font-size: 22px; font-weight: 400; color: var(--text); margin-bottom: 0.3rem; }
+    .bio-tag { font-size: 12px; font-family: -apple-system, sans-serif; color: var(--accent); font-weight: 600; margin-bottom: 1rem; }
+    .bio-detail { font-size: 12px; font-family: -apple-system, sans-serif; color: var(--muted); line-height: 1.6; padding: 0.4rem 0; border-bottom: 0.5px solid var(--border); display: flex; gap: 8px; }
+    .bio-detail:last-child { border-bottom: none; }
+    .bio-dot { color: var(--accent); font-weight: 700; flex-shrink: 0; }
+    .bio-text { font-size: 16px; color: var(--muted); line-height: 1.85; }
+    .bio-text p + p { margin-top: 1rem; }
+    .bio-text em { color: var(--text); font-style: italic; }
+    .highlights { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 2.5rem; }
+    .highlight-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 10px; padding: 1rem; }
+    .hc-label { font-size: 10px; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.4rem; font-weight: 700; }
+    .hc-text { font-size: 13px; font-family: -apple-system, sans-serif; color: var(--muted); line-height: 1.6; }
+    .hc-text strong { font-weight: 700; color: var(--text); }
+    .project-block { background: var(--bg3); padding: 1.5rem 2rem; margin-bottom: 2.5rem; }
+    .project-title { font-size: 18px; font-weight: 400; color: var(--text); margin-bottom: 0.5rem; }
+    .project-sub { font-size: 14px; font-family: -apple-system, sans-serif; color: var(--muted); line-height: 1.7; }
+    /* Contact form */
+    .form-wrap { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 11px; font-family: -apple-system, sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); }
+    .form-input, .form-textarea { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 8px; padding: 0.7rem 0.9rem; font-size: 13px; font-family: -apple-system, sans-serif; color: var(--text); outline: none; width: 100%; }
+    .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--hint); }
+    .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .form-submit { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-family: -apple-system, sans-serif; color: #fff; background: var(--accent); border: none; border-radius: 6px; padding: 10px 20px; cursor: pointer; align-self: flex-start; }
+    .form-submit:hover { opacity: 0.9; }
+    .form-note { font-size: 12px; font-family: -apple-system, sans-serif; color: var(--hint); line-height: 1.6; }
+    .success-msg { display: none; background: rgba(30,122,58,0.09); border: 0.5px solid #1e7a3a; border-radius: 8px; padding: 1rem 1.25rem; font-size: 13px; font-family: -apple-system, sans-serif; color: #1e7a3a; line-height: 1.6; }
+    footer { border-top: 0.5px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-logo { font-size: 14px; color: var(--hint); font-family: Georgia, serif; }
+    .footer-note { font-size: 12px; color: var(--hint); font-family: -apple-system, sans-serif; }
+    @media(max-width:560px) { .bio-grid { grid-template-columns: 1fr; gap: 1.5rem; } .highlights { grid-template-columns: 1fr 1fr; } .form-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="site">
+  <nav>
+    <a class="nav-logo" href="index.html">The Differential</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="index.html">Episodes</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        Dark
+      </button>
+    </div>
+  </nav>
+
+  <p class="page-eyebrow">The person behind it</p>
+  <h1 class="page-title">About</h1>
+
+  <p class="section-label">Who I am</p>
+  <div class="bio-grid">
+    <div class="bio-card">
+      <p class="bio-name">[Your name]</p>
+      <p class="bio-tag">Student · [Grade] · Texas</p>
+      <div class="bio-detail"><span class="bio-dot">·</span>HOSA member</div>
+      <div class="bio-detail"><span class="bio-dot">·</span>VP, STEMsters chapter</div>
+      <div class="bio-detail"><span class="bio-dot">·</span>TMSCA competitor</div>
+      <div class="bio-detail"><span class="bio-dot">·</span>Math Kangaroo since 1st grade</div>
+      <div class="bio-detail"><span class="bio-dot">·</span>SKZ fan</div>
+    </div>
+    <div class="bio-text">
+      <p>I'm a <em>[grade]</em> student with a long-standing obsession with two things that probably shouldn't go together: medicine and storytelling. The Differential is what happens when you combine them.</p>
+      <p>I've been doing competitive math since first grade — Math Kangaroo, TMSCA all through middle school — which gave me a weird appreciation for problems that have real stakes. Medicine felt like the same thing, just with higher ones. HOSA pulled me in deeper, and somewhere along the way I started wondering why medical education had to be so passive.</p>
+      <p>I've moved around a lot across the US, which means I've had to get good at starting over and figuring things out independently. This project is one of those things. I built it mostly from scratch, learned what I needed to as I went, and I'm still going.</p>
+      <p><em>The Differential is a passion project — not affiliated with any school, organization, or medical institution.</em> Every case is researched carefully, but this is for learning and curiosity, not clinical guidance.</p>
+    </div>
+  </div>
+
+  <p class="section-label">What I've done</p>
+  <div class="highlights">
+    <div class="highlight-card">
+      <p class="hc-label">HOSA</p>
+      <p class="hc-text">Future Health Professionals — competing and learning across medical science events.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="hc-label">STEMsters</p>
+      <p class="hc-text"><strong>Vice President</strong> of my chapter — helping run a student organization focused on STEM access.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="hc-label">TMSCA</p>
+      <p class="hc-text">Texas Math & Science Coaches Association — competed throughout middle school in math and science.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="hc-label">Math Kangaroo</p>
+      <p class="hc-text">International math competition — participating every year since 1st grade.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="hc-label">The Differential</p>
+      <p class="hc-text">Built this entire project — design, code, medical research, AI integration — independently.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="hc-label">And more</p>
+      <p class="hc-text">Still going. New episodes, new cases, new things to figure out.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p class="section-label">Request a scenario</p>
+  <p style="font-size:14px;font-family:-apple-system,sans-serif;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;">Have a medical condition, emergency, or clinical scenario you'd love to see turned into an episode? I'd genuinely love to hear it. Fill out the form below and I'll consider it for a future episode.</p>
+
+  <div class="form-wrap" id="contact-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input class="form-input" type="text" id="f-name" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="f-email" placeholder="your@email.com" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Scenario idea</label>
+      <input class="form-input" type="text" id="f-scenario" placeholder="e.g. anaphylaxis, aortic dissection, DKA in a child..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message</label>
+      <textarea class="form-textarea" id="f-message" placeholder="Tell me more — why this scenario, what you'd want to learn from it, or anything else..."></textarea>
+    </div>
+    <p class="form-note">I read every message. I can't promise every scenario will become an episode, but I'll do my best — especially if it's a good one.</p>
+    <button class="form-submit" onclick="submitForm()">
+      Send request
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="success-msg" id="success-msg">
+    Message sent! Thank you for the idea — I'll take a look and get back to you if I have questions.
+  </div>
+
+  <div class="divider"></div>
+
+  <footer>
+    <span class="footer-logo">The Differential</span>
+    <span class="footer-note">A medical fiction project</span>
+  </footer>
+</div>
+
+<script>
+function toggleTheme() {
+  var html = document.documentElement;
+  var btn = document.getElementById('theme-btn');
+  if(html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Dark';
+    localStorage.setItem('theme','light');
+  } else {
+    html.classList.add('dark');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Light';
+    localStorage.setItem('theme','dark');
+  }
+}
+(function(){ if(localStorage.getItem('theme')==='dark'){ document.documentElement.classList.add('dark'); document.addEventListener('DOMContentLoaded',function(){ var btn=document.getElementById('theme-btn'); if(btn) btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Light'; }); } })();
+
+async function submitForm() {
+  var name = document.getElementById('f-name').value.trim();
+  var email = document.getElementById('f-email').value.trim();
+  var scenario = document.getElementById('f-scenario').value.trim();
+  var message = document.getElementById('f-message').value.trim();
+
+  if(!name || !email || !scenario) {
+    alert('Please fill in your name, email, and scenario idea!');
+    return;
+  }
+
+  var btn = document.querySelector('.form-submit');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    var response = await fetch('https://formspree.io/f/xeeryknk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, scenario, message })
+    });
+    if(response.ok) {
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    } else {
+      alert('Something went wrong — try emailing directly at [your@email.com]');
+      btn.textContent = 'Send request';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alert('Something went wrong — try emailing directly at [your@email.com]');
+    btn.textContent = 'Send request';
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
